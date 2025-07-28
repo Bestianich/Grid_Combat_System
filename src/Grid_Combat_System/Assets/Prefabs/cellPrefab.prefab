@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3104281488180593497}
   - component: {fileID: 1369900662402542684}
   m_Layer: 0
-  m_Name: Walkable
+  m_Name: cellPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

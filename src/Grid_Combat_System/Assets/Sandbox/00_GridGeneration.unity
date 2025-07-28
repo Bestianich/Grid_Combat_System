@@ -4202,9 +4202,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1802341132}
-  - component: {fileID: 1802341131}
   - component: {fileID: 1802341133}
   - component: {fileID: 1802341134}
+  - component: {fileID: 1802341131}
   m_Layer: 0
   m_Name: GridGenerator
   m_TagString: Untagged
