@@ -10,7 +10,7 @@ public class GridEditor : Editor
         if (GUILayout.Button("Build Grid")) {
             GridGenerator grid = (GridGenerator)target;
             grid.DestroyGrid();
-            // grid.BuildMesh();
+            grid.BuildMesh();
             grid.BuildGrid();
         }
     }
