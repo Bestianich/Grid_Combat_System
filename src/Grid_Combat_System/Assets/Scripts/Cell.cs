@@ -7,6 +7,7 @@ public class Cell : MonoBehaviour
 {
     [SerializeField] private CellType _cellType;
     [SerializeField] private Color _colorHover;
+    [SerializeField] private Color _colorSpawn;
 
     private Color _startColor;
     private MeshRenderer _meshRenderer;
@@ -21,8 +22,32 @@ public class Cell : MonoBehaviour
 
     private void Update()
     {
-       HoverEffect();
+        if (GridManager.Instance.GetGamePhase() == GamePhase.SpawnPhase)
+        {
+            if (_cellType == CellType.Spawner) {
+                _meshRenderer.material.color = _colorSpawn;
+                SpawnPlayer();
+            }
+        }
+        else {
+            HoverEffect();
+        }
     }
+
+    private void SpawnPlayer()
+    {
+        if (Input.GetMouseButtonDown(0)) {
+            Vector3 mousePos = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+            if (hit.transform.gameObject == this.gameObject) {
+                Instantiate(GridManager.Instance.GetPlayerPrefab(), transform.position, Quaternion.identity);
+            }
+        }
+    }
+
+    #region MouseHoverEffect
 
 
     private void HoverEffect()
@@ -48,13 +73,14 @@ public class Cell : MonoBehaviour
     {
         _mouseOver = false;
     }
+    #endregion
 
 }
 
 [Serializable]
 public enum CellType
 {
-    Obstacle,
     Walkable,
-    Spawner
+    Spawner,
+    Obstacle
 }

@@ -99,6 +99,11 @@ public class GridGenerator : MonoBehaviour
         }
         _cells.Clear();
     }
+
+    public List<GameObject> GetCells()
+    {
+        return _cells;
+    }
     private void OnDrawGizmos()
     {
         if (_points == null)
