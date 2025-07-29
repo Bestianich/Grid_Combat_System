@@ -16,6 +16,11 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private List<GameObject> _cells = new List<GameObject>();
 
 
+    [SerializeField] private Color _walkableCellGizmoColor = Color.green;
+    [SerializeField] private Color _obstacleCellGizmoColor = Color.grey;
+    [SerializeField] private Color _spawnCellGizmoColor = Color.blue;
+    [SerializeField] private Color _enemySpawnCellGizmoColor = Color.red;
+
     private List<Vector3> _points = null;
 
     private void Start()
@@ -106,11 +111,34 @@ public class GridGenerator : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        if (_points == null)
-            return;
-        foreach (Vector3 point in _points)
-        {
-            Gizmos.DrawSphere(point, 0.2f);
+        // if (_points == null)
+        //     return;
+        // foreach (Vector3 point in _points)
+        // {
+        //     Gizmos.DrawSphere(point, 0.2f);
+        // }
+
+        foreach (GameObject cellObj in _cells) {
+            var cell = cellObj.GetComponent<Cell>();
+            if (cell.GetCellType() == CellType.Spawner)
+            {
+                Gizmos.color = _spawnCellGizmoColor;
+                Gizmos.DrawSphere(cell.transform.position, 0.2f);
+            }
+            else if (cell.GetCellType() == CellType.EnemySpawner) {
+                Gizmos.color = _enemySpawnCellGizmoColor;
+                Gizmos.DrawSphere(cell.transform.position, 0.2f);
+            }
+            else if (cell.GetCellType() == CellType.Obstacle)
+            {
+                Gizmos.color = _obstacleCellGizmoColor;
+                Gizmos.DrawSphere(cell.transform.position, 0.2f);
+            }
+            else if (cell.GetCellType() == CellType.Walkable)
+            {
+                Gizmos.color = _walkableCellGizmoColor;
+                Gizmos.DrawSphere(cell.transform.position, 0.2f);
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ public class Cell : MonoBehaviour
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _startColor = _meshRenderer.material.color;
+
     }
 
     private void Update()
@@ -34,9 +35,14 @@ public class Cell : MonoBehaviour
         }
     }
 
+    public CellType GetCellType()
+    {
+        return _cellType;
+    }
+
     private void SpawnPlayer()
     {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonUp(0)) {
             Vector3 mousePos = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(mousePos);
             RaycastHit hit;
@@ -82,5 +88,6 @@ public enum CellType
 {
     Walkable,
     Spawner,
+    EnemySpawner,
     Obstacle
 }
