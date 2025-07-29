@@ -13,7 +13,7 @@ public class GridGenerator : MonoBehaviour
 
     [SerializeField] private GameObject _cellPrefab;
 
-    private List<GameObject> _cells = new List<GameObject>();
+    [SerializeField] private List<GameObject> _cells = new List<GameObject>();
 
 
     private List<Vector3> _points = null;
@@ -73,14 +73,14 @@ public class GridGenerator : MonoBehaviour
         MeshCollider mc = GetComponent<MeshCollider>();
         mf.mesh = mesh;
 
-        Debug.Log(mf.mesh.vertices.Length);
+        Debug.Log(mf.sharedMesh.vertices.Length);
 
     }
 
     public void BuildGrid()
     {
         _points = new List<Vector3>();
-        _points = new List<Vector3>(GetComponent<MeshFilter>().mesh.vertices);
+        _points = new List<Vector3>(GetComponent<MeshFilter>().sharedMesh.vertices);
         foreach (Vector3 point in _points) {
             var cell = Instantiate(_cellPrefab, point + new Vector3(0f, 0.01f, 0f), _cellPrefab.transform.rotation,
                 this.transform);
@@ -92,10 +92,12 @@ public class GridGenerator : MonoBehaviour
     public void DestroyGrid()
     {
         _points = null;
-
+        int i = 0;
         foreach (GameObject cell in _cells){
+            Debug.Log(i++);
             DestroyImmediate(cell);
         }
+        _cells.Clear();
     }
     private void OnDrawGizmos()
     {
