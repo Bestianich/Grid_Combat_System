@@ -25,14 +25,13 @@ public class Cell : MonoBehaviour
     {
         if (GridManager.Instance.GetGamePhase() == GamePhase.SpawnPhase)
         {
-            if (_cellType == CellType.Spawner) {
+            if (_cellType == CellType.Spawner)
+            {
                 _meshRenderer.material.color = _colorSpawn;
                 SpawnPlayer();
             }
         }
-        else {
-            HoverEffect();
-        }
+        HoverEffect();
     }
 
     public CellType GetCellType()
@@ -64,7 +63,13 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            _meshRenderer.material.color = Color.Lerp(_meshRenderer.material.color, _startColor, Mathf.InverseLerp(0f, 1f, Time.time));
+            if (_cellType != CellType.Spawner) {
+                _meshRenderer.material.color = Color.Lerp(_meshRenderer.material.color, _startColor,
+                    Mathf.InverseLerp(0f, 1f, Time.time));
+            }
+            else {
+                _meshRenderer.material.color = Color.Lerp(_meshRenderer.material.color, _colorSpawn , Mathf.InverseLerp(0f, 1f, Time.time));
+            }
         }
     }
     private void OnMouseOver()

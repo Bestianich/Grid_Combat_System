@@ -26,7 +26,9 @@ public class GridManager : MonoBehaviour
 
         foreach (GameObject obj in _gridGenerator.GetCells())
         {
-            _cells.Add(obj.GetComponent<Cell>());
+            if (obj != null) {
+                _cells.Add(obj.GetComponent<Cell>());
+            }
         }
 
         _gamePhase = GamePhase.SpawnPhase;

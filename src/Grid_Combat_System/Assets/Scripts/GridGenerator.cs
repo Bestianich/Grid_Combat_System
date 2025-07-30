@@ -78,8 +78,6 @@ public class GridGenerator : MonoBehaviour
         MeshCollider mc = GetComponent<MeshCollider>();
         mf.mesh = mesh;
 
-        Debug.Log(mf.sharedMesh.vertices.Length);
-
     }
 
     public void BuildGrid()
@@ -97,9 +95,7 @@ public class GridGenerator : MonoBehaviour
     public void DestroyGrid()
     {
         _points = null;
-        int i = 0;
         foreach (GameObject cell in _cells){
-            Debug.Log(i++);
             DestroyImmediate(cell);
         }
         _cells.Clear();
@@ -119,25 +115,24 @@ public class GridGenerator : MonoBehaviour
         // }
 
         foreach (GameObject cellObj in _cells) {
-            var cell = cellObj.GetComponent<Cell>();
-            if (cell.GetCellType() == CellType.Spawner)
-            {
-                Gizmos.color = _spawnCellGizmoColor;
-                Gizmos.DrawSphere(cell.transform.position, 0.2f);
-            }
-            else if (cell.GetCellType() == CellType.EnemySpawner) {
-                Gizmos.color = _enemySpawnCellGizmoColor;
-                Gizmos.DrawSphere(cell.transform.position, 0.2f);
-            }
-            else if (cell.GetCellType() == CellType.Obstacle)
-            {
-                Gizmos.color = _obstacleCellGizmoColor;
-                Gizmos.DrawSphere(cell.transform.position, 0.2f);
-            }
-            else if (cell.GetCellType() == CellType.Walkable)
-            {
-                Gizmos.color = _walkableCellGizmoColor;
-                Gizmos.DrawSphere(cell.transform.position, 0.2f);
+            if (cellObj != null) {
+                var cell = cellObj.GetComponent<Cell>();
+                if (cell.GetCellType() == CellType.Spawner) {
+                    Gizmos.color = _spawnCellGizmoColor;
+                    Gizmos.DrawSphere(cell.transform.position, 0.2f);
+                }
+                else if (cell.GetCellType() == CellType.EnemySpawner) {
+                    Gizmos.color = _enemySpawnCellGizmoColor;
+                    Gizmos.DrawSphere(cell.transform.position, 0.2f);
+                }
+                else if (cell.GetCellType() == CellType.Obstacle) {
+                    Gizmos.color = _obstacleCellGizmoColor;
+                    Gizmos.DrawSphere(cell.transform.position, 0.2f);
+                }
+                else if (cell.GetCellType() == CellType.Walkable) {
+                    Gizmos.color = _walkableCellGizmoColor;
+                    Gizmos.DrawSphere(cell.transform.position, 0.2f);
+                }
             }
         }
     }
