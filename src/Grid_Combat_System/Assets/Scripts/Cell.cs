@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Cell : MonoBehaviour
 {
+    [SerializeField] private Vector2Int _cellCords;
     [SerializeField] private CellType _cellType;
     [SerializeField] private Color _colorHover;
     [SerializeField] private Color _colorSpawn;
@@ -17,6 +18,7 @@ public class Cell : MonoBehaviour
 
     private void Start()
     {
+
         _meshRenderer = GetComponent<MeshRenderer>();
         _startColor = _meshRenderer.material.color;
 
@@ -29,6 +31,10 @@ public class Cell : MonoBehaviour
         HoverEffect();
     }
 
+    public void SetCellCords(int x , int y)
+    {
+        _cellCords = new Vector2Int(x, y);
+    }
     public CellType GetCellType()
     {
         return _cellType;

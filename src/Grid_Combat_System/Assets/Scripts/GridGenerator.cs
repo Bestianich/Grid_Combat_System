@@ -11,9 +11,9 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private int _sizeY = 50;
     [SerializeField] private float _tileSize = 2f;
 
-    [SerializeField] private GameObject _cellPrefab;
+    [SerializeField] private Cell _cellPrefab;
 
-    [SerializeField] private List<GameObject> _cells = new List<GameObject>();
+    [SerializeField] private List<Cell> _cells = new List<Cell>();
 
 
     [SerializeField] private Color _walkableCellGizmoColor = Color.green;
@@ -88,6 +88,7 @@ public class GridGenerator : MonoBehaviour
             var cell = Instantiate(_cellPrefab, point + new Vector3(0f, 0.01f, 0f), _cellPrefab.transform.rotation,
                 this.transform);
             cell.name = "Cell: " + (int)point.x + "x" + (int)point.z;
+            cell.SetCellCords((int)point.x, (int)point.z);
             _cells.Add(cell);
         }
     }
@@ -95,13 +96,13 @@ public class GridGenerator : MonoBehaviour
     public void DestroyGrid()
     {
         _points = null;
-        foreach (GameObject cell in _cells){
-            DestroyImmediate(cell);
+        foreach (Cell cell in _cells){
+            DestroyImmediate(cell.gameObject);
         }
         _cells.Clear();
     }
 
-    public List<GameObject> GetCells()
+    public List<Cell> GetCells()
     {
         return _cells;
     }
@@ -114,7 +115,7 @@ public class GridGenerator : MonoBehaviour
         //     Gizmos.DrawSphere(point, 0.2f);
         // }
 
-        foreach (GameObject cellObj in _cells) {
+        foreach (Cell cellObj in _cells) {
             if (cellObj != null) {
                 var cell = cellObj.GetComponent<Cell>();
                 if (cell.GetCellType() == CellType.Spawner) {

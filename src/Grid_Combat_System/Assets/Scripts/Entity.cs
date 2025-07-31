@@ -4,5 +4,6 @@
 public abstract class Entity : MonoBehaviour
 {
 
+
 }
 
