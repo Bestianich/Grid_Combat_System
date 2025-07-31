@@ -8,6 +8,7 @@ public class Cell : MonoBehaviour
     [SerializeField] private CellType _cellType;
     [SerializeField] private Color _colorHover;
     [SerializeField] private Color _colorSpawn;
+    [SerializeField] private Entity _entityOnCell;
 
     private Color _startColor;
     private MeshRenderer _meshRenderer;
@@ -23,14 +24,8 @@ public class Cell : MonoBehaviour
 
     private void Update()
     {
-        if (GridManager.Instance.GetGamePhase() == GamePhase.SpawnPhase)
-        {
-            if (_cellType == CellType.Spawner)
-            {
-                _meshRenderer.material.color = _colorSpawn;
-                SpawnPlayer();
-            }
-        }
+        if (GameManager.Instance.GetGamePhase() == GamePhase.SpawnPhase && _cellType == CellType.Spawner)
+            _meshRenderer.material.color = _colorSpawn;
         HoverEffect();
     }
 
@@ -39,17 +34,14 @@ public class Cell : MonoBehaviour
         return _cellType;
     }
 
-    private void SpawnPlayer()
+    public void SetEntityOnCell(Entity entityOnCell)
     {
-        if (Input.GetMouseButtonUp(0)) {
-            Vector3 mousePos = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            if (hit.transform.gameObject == this.gameObject) {
-                Instantiate(GridManager.Instance.GetPlayerPrefab(), transform.position, Quaternion.identity);
-            }
-        }
+        _entityOnCell = entityOnCell;
+    }
+
+    public Entity GetEntityOnCell()
+    {
+        return _entityOnCell;
     }
 
     #region MouseHoverEffect
