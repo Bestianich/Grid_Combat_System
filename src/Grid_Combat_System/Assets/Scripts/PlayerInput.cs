@@ -2,7 +2,7 @@
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private Entity _entitySelected;
+    [SerializeField] private static Entity _entitySelected;
 
     private void Update()
     {
@@ -11,7 +11,6 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-
     private void SpawnEntity()
     {
         if (Input.GetMouseButtonUp(0)) {
@@ -19,6 +18,7 @@ public class PlayerInput : MonoBehaviour
                 Debug.Log("No entity selected");
                 return;
             }
+
             Vector3 mousePos = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(mousePos);
             RaycastHit hit;
@@ -27,12 +27,19 @@ public class PlayerInput : MonoBehaviour
             if (cell.GetCellType() == CellType.Spawner) {
                 var entityPrefab = _entitySelected;
                 Debug.Log(entityPrefab.transform.localScale);
-                Vector3 playerOffset = new Vector3(0, 0, -entityPrefab.transform.localScale.z/2);
-                var entitySpawned = Instantiate(_entitySelected, cell.transform.position, Quaternion.identity , cell.transform);
+                Vector3 playerOffset = new Vector3(0, 0, -entityPrefab.transform.localScale.z / 2);
+                var entitySpawned = Instantiate(_entitySelected, cell.transform.position, Quaternion.identity,
+                    cell.transform);
                 entitySpawned.transform.localPosition += playerOffset;
                 cell.SetEntityOnCell(entitySpawned);
             }
         }
+
+    }
+
+    public static void SelectEntity(Entity entitySelected)
+    {
+        _entitySelected = entitySelected;
     }
 }
 
