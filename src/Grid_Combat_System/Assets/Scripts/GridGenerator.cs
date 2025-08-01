@@ -13,7 +13,7 @@ public class GridGenerator : MonoBehaviour
 
     [SerializeField] private Cell _cellPrefab;
 
-    [SerializeField] private List<Cell> _cells = new List<Cell>();
+    [SerializeField] private Cell[,] _cells;
 
 
     [SerializeField] private Color _walkableCellGizmoColor = Color.green;
@@ -41,6 +41,7 @@ public class GridGenerator : MonoBehaviour
 
         int numVertices = vertX * vertY;
 
+        _cells = new Cell[_sizeX, _sizeY];
         Vector3[] vertices = new Vector3[numVertices];
         int[] triangles = new int[numTriangles * 3];
         Vector3[] normals = new Vector3[numVertices];
@@ -82,6 +83,7 @@ public class GridGenerator : MonoBehaviour
 
     public void BuildGrid()
     {
+        _cells = new Cell[_sizeX, _sizeY];
         _points = new List<Vector3>();
         _points = new List<Vector3>(GetComponent<MeshFilter>().sharedMesh.vertices);
         foreach (Vector3 point in _points) {
@@ -89,7 +91,7 @@ public class GridGenerator : MonoBehaviour
                 this.transform);
             cell.name = "Cell: " + (int)point.x + "x" + (int)point.z;
             cell.SetCellCords((int)point.x, (int)point.z);
-            _cells.Add(cell);
+            _cells[(int)point.x, (int)point.z] = cell;
         }
     }
 
@@ -99,10 +101,9 @@ public class GridGenerator : MonoBehaviour
         foreach (Cell cell in _cells){
             DestroyImmediate(cell.gameObject);
         }
-        _cells.Clear();
     }
 
-    public List<Cell> GetCells()
+    public Cell[,] GetCells()
     {
         return _cells;
     }

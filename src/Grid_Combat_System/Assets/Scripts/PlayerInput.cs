@@ -33,6 +33,7 @@ public class PlayerInput : MonoBehaviour
                 entitySpawned.transform.localPosition += playerOffset;
                 cell.SetEntityOnCell(entitySpawned);
             }
+            _entitySelected = null;
         }
 
     }
